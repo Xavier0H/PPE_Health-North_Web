@@ -1,0 +1,82 @@
+{% extends 'patient/base.html' %}
+
+{% block content %}
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Mes rendez-vous</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-lg-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h5 class="mb-0">Liste des rendez-vous</h5>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-3">
+                        <table class="table table-striped table-hover table-sm mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Lieu <i class="bx bx-up-arrow-alt ms-2"></i>
+                                    </th>
+                                    <th>Spécialiste</th>
+                                    <th>Date du rendez-vous</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i>
+                                            </div>
+                                            <div class="font-weight-bold table">12, rue du chapeau 31100 Toulouse
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Dr DUPONT</td>
+                                    <td>14h00 Sep 3, 2022</td>
+                                    <td><i class="fa fa-ellipsis-h font-24"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i>
+                                            </div>
+                                            <div class="font-weight-bold table">12, rue du chapeau 31100 Toulouse
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Dr MARTIN</td>
+                                    <td>16h00 Sep 1, 2022</td>
+                                    <td><i class="fa fa-ellipsis-h font-24"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i>
+                                            </div>
+                                            <div class="font-weight-bold table">12, rue du chapeau 31100 Toulouse
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>MONA</td>
+                                    <td>9h30 Août 28, 2022</td>
+                                    <td><i class="fa fa-ellipsis-h font-24"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,110 @@
+{% extends 'patient/base.html' %}
+
+{% block content %}
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Prendre un rendez-vous</h1>
+</div>
+<div id="picker"></div>
+<div>
+    <p>Date sélectionné: <span id="selected-date"></span></p>
+    <p>Crénau sélectionné: <span id="selected-time"></span></p>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="js/mark-your-calendar.js"></script>
+<script type="text/javascript">
+    (function($) {
+      $('#picker').markyourcalendar({
+        availability: [
+          ['10:00', '11:00', '13:00', '14:00', '15:00'],
+          ['11:00'],
+          ['13:00'],
+          ['14:00'],
+          ['15:00'],
+          ['16:00'],
+          ['17:00']
+        ],
+        startDate: new Date("2023-02-25"),
+        onClick: function(ev, data) {
+          // data is a list of datetimes
+          var d = data[0].split(' ')[0];
+          var t = data[0].split(' ')[1];
+          $('#selected-date').html(d);
+          $('#selected-time').html(t);
+        },
+        onClickNavigator: function(ev, instance) {
+          var arr = [
+            [
+              ['14:00', '15:00', '16:00', '17:00', '18:00'],
+              ['10:00', '15:00'],
+              ['11:00', '15:00'],
+              ['13:30'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00']
+            ],
+            [
+              ['11:00', '15:00'],
+              ['14:00', '15:00', '16:00', '17:00', '18:00'],
+              ['14:00', '15:00'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00']
+            ],
+            [
+              ['14:00', '15:00', '16:00', '17:00', '18:00'],
+              ['10:00', '15:00'],
+              ['11:00', '15:00'],
+              ['13:30'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00']
+            ],
+            [
+              ['11:00', '15:00'],
+              ['14:00', '15:00', '16:00', '17:00', '18:00'],
+              ['14:00', '15:00'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00']
+            ],
+            [
+              ['14:00', '15:00', '16:00', '17:00', '18:00'],
+              ['10:00', '15:00'],
+              ['11:00', '15:00'],
+              ['13:30'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00']
+            ],
+            [
+              ['11:00', '15:00'],
+              ['14:00', '15:00', '16:00', '17:00', '18:00'],
+              ['14:00', '15:00'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00']
+            ],[
+              ['14:00', '15:00', '16:00', '17:00', '18:00'],
+              ['10:00', '15:00'],
+              ['11:00', '15:00'],
+              ['13:30'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00'],
+              ['11:00', '15:00']
+            ],
+          ]
+          var rn = Math.floor(Math.random() * 10) % 7;
+          instance.setAvailability(arr[rn]);
+        }
+      });
+    })(jQuery);
+</script>
+{% endblock %}
+
+
+

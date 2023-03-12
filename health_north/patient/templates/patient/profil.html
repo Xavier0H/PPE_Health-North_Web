@@ -1,0 +1,48 @@
+{% extends 'patient/base.html' %}
+
+{% block content %}
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Informations</h1>
+</div>
+    {% load static %}
+<!-- Content Row -->
+<div class="row">
+
+    <div class="col-lg-6 mb-4">
+
+        <!-- Informations -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Informations générale</h6>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
+                        src="{% static 'patient/img/undraw_profile_2.svg' %}" alt="...">
+                </div>
+                <ul>
+                    <li>
+                        Nom
+                    </li>
+                    <li>
+                        Prénom
+                    </li>
+                    <li>
+                        Date de naissance
+                    </li>
+                    <li>
+                        Adresse email
+                    </li>
+                    <li>
+                        Adresse postale
+                    </li>
+                </ul>
+                <a target="_blank" rel="nofollow" href="{%url 'profil-setting' %}">Modifier mon profil &rarr;</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
