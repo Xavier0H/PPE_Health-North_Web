@@ -21,7 +21,7 @@ from patient import views # noqa
 urlpatterns = [
     path('morning/', views.morning),
     path('layout/', views.layout),
-    path('login/', views.login, name="login"),
+    path('login/', views.Login, name="login"),
     path('hello/', views.hello),
     path('index/', views.index, name="index"),
     path('document/', views.Document, name="document"),
@@ -30,6 +30,7 @@ urlpatterns = [
     path('prendre-rdv/', views.TakeAppointment, name="prendre-rdv"),
     path('profil/', views.Profil, name="profil"),
     path('register/', views.Register, name="register"),
+    path('logout/', views.Logout, name="logout"),
     path('rendez-vous/', views.Appointment, name="rendez-vous"),
     path('rendez-vous2/', views.Appointment2, name="rendez-vous2"),
 ]

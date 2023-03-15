@@ -7,12 +7,13 @@
 </div>
 <div id="picker"></div>
 <div>
-    <p>Date sélectionné: <span id="selected-date"></span></p>
-    <p>Crénau sélectionné: <span id="selected-time"></span></p>
+    <p>Date sélectionnée: <span id="selected-date"></span></p>
+    <p>Créneau sélectionné: <span id="selected-time"></span></p>
 </div>
+    {% load static %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="js/mark-your-calendar.js"></script>
+<script type="text/javascript" src="{% static 'patient/js/mark-your-calendar.js' %}"></script>
 <script type="text/javascript">
     (function($) {
       $('#picker').markyourcalendar({

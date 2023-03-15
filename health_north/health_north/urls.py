@@ -16,8 +16,10 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from patient import views # noqa
 
 urlpatterns = [
+    path('', views.Login, name="login"),
     path('admin/', admin.site.urls),
     path('', include('patient.urls')),
     path('', include('pro.urls')),

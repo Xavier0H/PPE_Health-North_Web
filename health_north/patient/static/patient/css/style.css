@@ -22,6 +22,10 @@
   padding-left: 50px;
 }
 
+.logout :hover :focus{
+    color: #FFFFFF;
+}
+
 
 
 

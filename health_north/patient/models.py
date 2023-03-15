@@ -79,6 +79,9 @@ class Profile(models.Model):
     date_of_birth = models.DateField()
     speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE, null=True, blank=True)
 
+    def __repr__(self):
+        return 'user %s' % self.user.name
+
     class Meta:
         verbose_name = "Profil"
 
@@ -117,7 +120,7 @@ class TypeDocument(models.Model):
 
 class Document(models.Model):
     appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE, null=True, blank=True)
-    doclink = models.CharField(max_length=255)
+    doclink = models.FileField(upload_to='document')
     create_date = models.DateTimeField(auto_now_add=True)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     type_document_name = models.ForeignKey(TypeDocument, on_delete=models.CASCADE)
