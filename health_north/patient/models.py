@@ -7,39 +7,6 @@ from django.contrib.auth.models import User
 
 # from .appointment import Appointment
 
-class Region(models.Model):
-    code = models.CharField(max_length=3, unique=True)
-    name = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255)
-
-    class Meta:
-        verbose_name = "Région"
-
-
-class Department(models.Model):
-    region = models.ForeignKey(Region, on_delete=models.CASCADE, db_column='region_code')
-    code = models.CharField(max_length=3)
-    name = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255)
-
-    class Meta:
-        verbose_name = "Département"
-
-
-class Cities(models.Model):
-    id = models.AutoField(primary_key=True)
-    department_code = models.ForeignKey(Department, on_delete=models.CASCADE)
-    insee_code = models.CharField(max_length=5, null=True)
-    zip_code = models.CharField(max_length=5, null=True)
-    name = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255)
-    gps_lat = models.DecimalField(max_digits=16, decimal_places=14)
-    gps_lng = models.DecimalField(max_digits=17, decimal_places=14)
-
-    class Meta:
-        verbose_name = "Ville"
-
-
 class TypePlace(models.Model):
     type_place_name = models.CharField(max_length=50)
 
@@ -49,7 +16,8 @@ class TypePlace(models.Model):
 
 
 class Place(models.Model):
-    cities = models.ForeignKey(Cities, on_delete=models.CASCADE)
+    #cities = models.ForeignKey(Cities, on_delete=models.CASCADE)
+    address = models.CharField(max_length=100, default="Inconnu")
     type_place = models.ForeignKey(TypePlace, on_delete=models.CASCADE)
 
     class Meta:
@@ -109,6 +77,7 @@ class Appointment(models.Model):
 
     class Meta:
         verbose_name = "Rendez-vous"
+        verbose_name_plural = "Rendez-vous"
 
 
 class TypeDocument(models.Model):
@@ -120,7 +89,7 @@ class TypeDocument(models.Model):
 
 class Document(models.Model):
     appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE, null=True, blank=True)
-    doclink = models.FileField(upload_to='document')
+    file = models.FileField(upload_to='document')
     create_date = models.DateTimeField(auto_now_add=True)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     type_document_name = models.ForeignKey(TypeDocument, on_delete=models.CASCADE)

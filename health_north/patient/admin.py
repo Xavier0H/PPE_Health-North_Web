@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Document, TypeDocument, SpecialityName, Speciality, Place, TypePlace
+from .models import Profile, Document, TypeDocument, SpecialityName, Speciality, Place, TypePlace, Appointment, Review, TypeReview
 
 # Register your models here.
 
@@ -10,3 +10,6 @@ admin.site.register(SpecialityName)
 admin.site.register(Speciality)
 admin.site.register(Place)
 admin.site.register(TypePlace)
+admin.site.register(Appointment)
+admin.site.register(Review)
+admin.site.register(TypeReview)

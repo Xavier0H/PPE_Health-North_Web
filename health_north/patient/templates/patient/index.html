@@ -2,7 +2,7 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-    <h3>Bonjour {{ firstname }} vous êtes connecté</h3>
+    <h3>Bonjour {{ user.first_name }} vous êtes connecté</h3>
     {% endif %}
     {% for message in messages %}
         <div class="text-center">

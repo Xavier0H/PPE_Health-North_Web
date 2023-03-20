@@ -3,9 +3,9 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Profile, User, Speciality, Review, TypeReview, Appointment, Document, TypeDocument, Place, \
-    TypePlace, Region, Department, Cities
+from .models import Profile, User, Speciality, Review, TypeReview, Appointment, Document, TypeDocument, Place
 
 
 # Create your views here.
@@ -24,6 +24,7 @@ def layout(request):
     return render(request, 'patient/layout.html')
 
 
+@login_required(login_url='Login')
 def index(request):
     # user = authenticate()
     # if user is not None:
@@ -43,16 +44,20 @@ def Login(request):
             firstname = user.first_name
             lastname = user.last_name
             # return render(request, 'patient/index.html', {'firstname': firstname})
-            redirect('index')
-            return render(request, 'patient/index.html', {'firstname': firstname})
+            return redirect('index')
+            # return render(request, 'patient/index.html')
         else:
             messages.error(request, 'Votre nom d\'utilisateur ou votre mot de passe est incorrect, veuillez réessayer.')
             return redirect('login')
-    return render(request, 'patient/login.html')
+    else:
+        return render(request, 'patient/login.html')
 
 
-def Document(request):
-    return render(request, 'patient/documents.html')
+def my_document(request):
+    print("ok")
+    files = Document.objects.filter(profile__user=request.user) # order_by("-id")
+    print(files)
+    return render(request, 'patient/documents.html', {'files': files})
 
 
 def ForgotPassword(request):

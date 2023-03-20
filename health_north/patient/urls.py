@@ -24,7 +24,7 @@ urlpatterns = [
     path('login/', views.Login, name="login"),
     path('hello/', views.hello),
     path('index/', views.index, name="index"),
-    path('document/', views.Document, name="document"),
+    path('document/', views.my_document, name="document"),
     path('forgot-password/', views.ForgotPassword, name="forgot-password"),
     path('profil-setting/', views.ProfilSetting, name="profil-setting"),
     path('prendre-rdv/', views.TakeAppointment, name="prendre-rdv"),
