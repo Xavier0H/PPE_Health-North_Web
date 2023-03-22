@@ -62,58 +62,16 @@
                                             <div><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i>
                                             </div>
                                             <div class="font-weight-bold text-danger">
-                                                <a href="{{ file.file.url }}/">{{ file.type_document_name }}</a>
+                                                <a href="{{ file.file.url }}/">{{ file.type_document_name.type_document_name }}</a>
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{{ pro.appointment_name }}</td>
-                                    <td>{{ document.create_date }}</td>
+                                    <td>{{ file.appointment.specialist_name.specialist_name }}</td>
+                                    <td>{{ file.create_date|date:'d-m-Y H:i' }}</td>
                                     <td><i class="fa fa-ellipsis-h font-24"></i>
                                     </td>
                                 </tr>
                             {% endfor %}
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i>
-                                            </div>
-                                            <div class="font-weight-bold text-danger">Ordonnance
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Dr DUPONT</td>
-                                    <td>Sep 3, 2022</td>
-                                    <td><i class="fa fa-ellipsis-h font-24"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i>
-                                            </div>
-                                            <div class="font-weight-bold text-danger">Résultat d'analyse
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Dr MARTIN</td>
-                                    <td>Sep 1, 2022</td>
-                                    <td><i class="fa fa-ellipsis-h font-24"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i>
-                                            </div>
-                                            <div class="font-weight-bold text-danger">Facture
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>MONA</td>
-                                    <td>Août 28, 2022</td>
-                                    <td><i class="fa fa-ellipsis-h font-24"></i>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>

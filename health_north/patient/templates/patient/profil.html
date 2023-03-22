@@ -21,23 +21,25 @@
                     <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
                         src="{% static 'patient/img/undraw_profile_2.svg' %}" alt="...">
                 </div>
+                {% for id in info %}
                 <ul>
                     <li>
-                        Nom
+                        {{ user.last_name }}
                     </li>
                     <li>
-                        Prénom
+                        {{ user.first_name }}
                     </li>
                     <li>
-                        Date de naissance
+                        {{ id.date_of_birth|date:'d-m-Y' }}
                     </li>
                     <li>
-                        Adresse email
+                        {{ user.email }}
                     </li>
                     <li>
-                        Adresse postale
+                        {{ id.adresse }}
                     </li>
                 </ul>
+                {% endfor %}
                 <a target="_blank" rel="nofollow" href="{%url 'profil-setting' %}">Modifier mon profil &rarr;</a>
             </div>
         </div>

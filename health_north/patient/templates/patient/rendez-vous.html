@@ -27,48 +27,22 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            {% for id in rdv %}
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i>
                                             </div>
-                                            <div class="font-weight-bold table">{{ rdv.date}}
+                                            <div class="font-weight-bold table">{{ id.specialist_name.place.address }}
                                             </div>
                                         </div>
                                     </td>
-                                    <td>Dr DUPONT</td>
-                                    <td>14h00 Sep 3, 2022</td>
+                                    <td>{{ id.specialist_name.specialist_name }}</td>
+                                    <td>{{ id.date|date:'d-m-Y H:i' }}</td>
                                     <td><i class="fa fa-ellipsis-h font-24"></i>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i>
-                                            </div>
-                                            <div class="font-weight-bold table">12, rue du chapeau 31100 Toulouse
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Dr MARTIN</td>
-                                    <td>16h00 Sep 1, 2022</td>
-                                    <td><i class="fa fa-ellipsis-h font-24"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i>
-                                            </div>
-                                            <div class="font-weight-bold table">12, rue du chapeau 31100 Toulouse
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>MONA</td>
-                                    <td>9h30 Août 28, 2022</td>
-                                    <td><i class="fa fa-ellipsis-h font-24"></i>
-                                    </td>
-                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>

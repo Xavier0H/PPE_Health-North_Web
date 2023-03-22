@@ -54,13 +54,8 @@ def Login(request):
 
 
 def my_document(request):
-    print("ok")
     files = Document.objects.filter(profile__user=request.user) # order_by("-id")
     print(files)
-    print(Document.objects.filter(type_document_name__type_document_name=1))
-    pro = Document.objects.filter(appointment__specialist_name__specialist_name=request.user)
-    #date = Document.objects.filter(create_date=request.user)
-    print(pro)
     return render(request, 'patient/documents.html', {'files': files})
 
 
@@ -77,7 +72,8 @@ def TakeAppointment(request):
 
 
 def Profil(request):
-    return render(request, 'patient/profil.html')
+    info = Profile.objects.filter(user=request.user)
+    return render(request, 'patient/profil.html', {'info': info})
 
 
 def Register(request):
@@ -144,6 +140,7 @@ def Register(request):
 
 def appointment(request):
     rdv = Appointment.objects.filter(profile__user=request.user)
+    print(rdv)
     return render(request, 'patient/rendez-vous.html', {'rdv': rdv})
 
 
