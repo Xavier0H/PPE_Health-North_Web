@@ -55,6 +55,23 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            {% for file in files %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i>
+                                            </div>
+                                            <div class="font-weight-bold text-danger">
+                                                <a href="{{ file.file.url }}/">{{ file.type_document_name }}</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ pro.appointment_name }}</td>
+                                    <td>{{ document.create_date }}</td>
+                                    <td><i class="fa fa-ellipsis-h font-24"></i>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center">
@@ -105,16 +122,6 @@
         </div>
     </div>
 </div>
-    {% if user.is_authenticated %}
-    <h3>DOCUMENT : {{ document.file.url }} </h3>
-        {% for file in files %}
-            <tr>
-                <td><a href="{{ file.file.url }}/">{{ file.file.url }}</a></td>
-                <td>{{ file.file.path.size | filesizeformat }}</td>
-                <td>{{ file.upload_method }}</td>
-            </tr>
-        {% endfor %}
-    {% endif %}
 {% endblock %}
 
 

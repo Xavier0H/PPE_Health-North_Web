@@ -31,6 +31,6 @@ urlpatterns = [
     path('profil/', views.Profil, name="profil"),
     path('register/', views.Register, name="register"),
     path('logout/', views.Logout, name="logout"),
-    path('rendez-vous/', views.Appointment, name="rendez-vous"),
+    path('rendez-vous/', views.appointment, name="rendez-vous"),
     path('rendez-vous2/', views.Appointment2, name="rendez-vous2"),
 ]
