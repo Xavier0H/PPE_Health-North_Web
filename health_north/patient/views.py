@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from .models import Profile, User, Speciality, Review, TypeReview, Appointment, Document, TypeDocument, Place
+from .froms import PasswordChangingForm
 
 
 # Create your views here.
@@ -67,7 +68,8 @@ def ForgotPassword(request):
 
 def ProfilSetting(request):
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
+        form = PasswordChangingForm(request.user, request.POST)
+        #form = PasswordChangeForm(request.user, request.POST)
 
         if form.is_valid():
             user = form.save()
@@ -77,8 +79,9 @@ def ProfilSetting(request):
         else:
             messages.error(request, 'Veuillez corriger l\'erreur ci-dessous. ')
     else:
-        form = PasswordChangeForm(request.user)
-    return render(request, 'patient/modifier-profil.html', {'form': form }) #
+        form = PasswordChangingForm(request.user)
+        #form = PasswordChangeForm(request.user)
+    return render(request, 'patient/modifier-profil.html', {'form': form}) #
 
 
 

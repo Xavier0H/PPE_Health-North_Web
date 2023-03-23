@@ -12,16 +12,34 @@
             <h1 class="h6 text-gray-900 mb-4">{{ text }}</h1>
         </div>
         {% endfor %}
-        <!-- Forms -->
         <form method="POST" class="user">
             <div class="form-group">
                 <input type="email" class="form-control form-control-user"
                     id="exampleInputEmail" aria-describedby="emailHelp"
                     placeholder="DONNEE EMAIL BDD">
             </div>
+        </form>
             <hr>
+        <!-- Text Helper -->
+        <ul>
+            <li>
+                Votre mot de passe ne peut pas trop ressembler à vos autres informations personnelles.
+            </li>
+            <li>
+                Votre mot de passe doit contenir au minimum 8 caractères.
+            </li>
+            <li>
+                Votre mot de passe ne peut pas être un mot de passe couramment utilisé.
+            </li>
+            <li>
+                Votre mot de passe ne peut pas être entièrement numérique.
+            </li>
+        </ul>
+        <!-- Forms -->
+        <form method="POST" class="user">
             {% csrf_token %}
                     {{ form }}
+        </br>
             <button type="submit" class="btn btn-primary btn-user btn-block">Modifier les informations</button>
         </form>
     </div>
