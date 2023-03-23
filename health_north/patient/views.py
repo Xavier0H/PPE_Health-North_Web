@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from .models import Profile, User, Speciality, Review, TypeReview, Appointment, Document, TypeDocument, Place
 
 
@@ -64,7 +66,20 @@ def ForgotPassword(request):
 
 
 def ProfilSetting(request):
-    return render(request, 'patient/modifier-profil.html')
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Votre mot de passe a été modifié avec succès.')
+            return redirect('profil-setting')
+        else:
+            messages.error(request, 'Veuillez corriger l\'erreur ci-dessous. ')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'patient/modifier-profil.html', {'form': form }) #
+
 
 
 def TakeAppointment(request):

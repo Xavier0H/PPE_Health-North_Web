@@ -7,26 +7,22 @@
 </div>
 <div class="row">
     <div class="param-profil">
-
+        {% for text in messages %}
+        <div class="text-center">
+            <h1 class="h6 text-gray-900 mb-4">{{ text }}</h1>
+        </div>
+        {% endfor %}
         <!-- Forms -->
-        <form class="user">
+        <form method="POST" class="user">
             <div class="form-group">
                 <input type="email" class="form-control form-control-user"
                     id="exampleInputEmail" aria-describedby="emailHelp"
                     placeholder="DONNEE EMAIL BDD">
             </div>
             <hr>
-            <div class="form-group">
-                <input type="password" class="form-control form-control-user"
-                    id="exampleInputPassword" placeholder="Nouveau mot de passe">
-            </div>
-            <div class="form-group">
-                <input type="password" class="form-control form-control-user"
-                    id="exampleInputPassword" placeholder="Comfirmez le nouveau mot de passe">
-            </div>
-            <a href="{%url 'profil' %}" class="btn btn-primary btn-user btn-block">
-                Modifier les informations
-            </a>
+            {% csrf_token %}
+                    {{ form }}
+            <button type="submit" class="btn btn-primary btn-user btn-block">Modifier les informations</button>
         </form>
     </div>
 </div>
