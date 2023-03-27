@@ -80,6 +80,9 @@ DATABASES = {
         'PASSWORD': os.environ.get("MYSQL_PASSWORD", ""),
         'HOST': os.environ.get("MYSQL_HOST", "127.0.0.1"),
         'PORT': '3306',
+        'TEST': {
+            'NAME': 'test_health-north',
+            }
     }
 }
 
@@ -128,3 +131,4 @@ STATICFILES_DIRS = (
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
 MEDIA_URL = '/upload/'
+
