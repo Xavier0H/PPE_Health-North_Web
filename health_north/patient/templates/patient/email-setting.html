@@ -7,23 +7,6 @@
 </div>
 <div class="row">
     <div class="param-profil">
-        <!-- Text Helper -->
-    <h4>Restrictions mot de passe:</h4>
-        <ul>
-            <li>
-                Votre mot de passe ne peut pas trop ressembler à vos autres informations personnelles.
-            </li>
-            <li>
-                Votre mot de passe doit contenir au minimum 8 caractères.
-            </li>
-            <li>
-                Votre mot de passe ne peut pas être un mot de passe couramment utilisé.
-            </li>
-            <li>
-                Votre mot de passe ne peut pas être entièrement numérique.
-            </li>
-        </ul>
-    <hr>
         {% for text in messages %}
         <div class="text-center">
             <h1 class="h6 text-gray-900 mb-4">{{ text }}</h1>
@@ -32,12 +15,15 @@
         <!-- Forms -->
         <form method="POST" class="user">
             {% csrf_token %}
-                    {{ form }}
-        </br>
+
+            {{ form }}
+
+            </br><hr>
+
             <button type="submit" class="btn btn-primary btn-user btn-block">Modifier les informations</button>
+
         </form>
+
     </div>
 </div>
 {% endblock %}
-
-

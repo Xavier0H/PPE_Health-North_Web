@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.template import loader
+from django.template import loader, RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from .models import Profile, User, Speciality, Review, TypeReview, Appointment, Document, TypeDocument, Place
-from .froms import PasswordChangingForm
+from .froms import PasswordChangingForm, EmailChangeForm, EmailChangingForm
 
 
 # Create your views here.
@@ -56,8 +56,9 @@ def Login(request):
         return render(request, 'patient/login.html')
 
 
+@login_required(login_url='Login')
 def my_document(request):
-    files = Document.objects.filter(profile__user=request.user) # order_by("-id")
+    files = Document.objects.filter(profile__user=request.user)  # order_by("-id")
     print(files)
     return render(request, 'patient/documents.html', {'files': files})
 
@@ -66,10 +67,11 @@ def ForgotPassword(request):
     return render(request, 'patient/forgot-password.html')
 
 
+@login_required(login_url='Login')
 def ProfilSetting(request):
     if request.method == 'POST':
         form = PasswordChangingForm(request.user, request.POST)
-        #form = PasswordChangeForm(request.user, request.POST)
+        # form = PasswordChangeForm(request.user, request.POST)
 
         if form.is_valid():
             user = form.save()
@@ -80,15 +82,32 @@ def ProfilSetting(request):
             messages.error(request, 'Veuillez corriger l\'erreur ci-dessous. ')
     else:
         form = PasswordChangingForm(request.user)
-        #form = PasswordChangeForm(request.user)
-    return render(request, 'patient/modifier-profil.html', {'form': form}) #
+        # form = PasswordChangeForm(request.user)
+    return render(request, 'patient/modifier-profil.html', {'form': form})  #
 
 
+@login_required(login_url='Login')
+def email_setting(request):
+    #form = EmailChangeForm(request.user)
+    form = EmailChangingForm(request.user)
+    if request.method == 'POST':
+        #form = EmailChangeForm(request.user, request.POST)
+        form = EmailChangingForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'patient/email-setting.html')
+        else:
+            messages.error(request, 'Veuillez corriger l\'erreur ci-dessous. ')
+    else:
+        return render(request, 'patient/email-setting.html', {'form': form})
 
+
+@login_required(login_url='Login')
 def TakeAppointment(request):
     return render(request, 'patient/prendre-rdv.html')
 
 
+@login_required(login_url='Login')
 def Profil(request):
     info = Profile.objects.filter(user=request.user)
     return render(request, 'patient/profil.html', {'info': info})
@@ -156,12 +175,14 @@ def Register(request):
     return render(request, 'patient/register.html')
 
 
+@login_required(login_url='Login')
 def appointment(request):
     rdv = Appointment.objects.filter(profile__user=request.user)
     print(rdv)
     return render(request, 'patient/rendez-vous.html', {'rdv': rdv})
 
 
+@login_required(login_url='Login')
 def Appointment2(request):
     return render(request, 'patient/rendez-vous2.html')
 

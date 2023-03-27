@@ -81,12 +81,18 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{%url 'profil-setting' %}" data-target="#collapseUtilities"
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>Modifier son profil</span>
                 </a>
-            </li>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Paramètre profile:</h6>
+                        <a class="collapse-item" href="{%url 'email-setting' %}">Modifier l'adresse email</a>
+                        <a class="collapse-item" href="{%url 'profil-setting' %}">Modifier le mot de passe</a>
+                    </div>
+                </div>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
