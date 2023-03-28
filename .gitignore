@@ -3,3 +3,5 @@
 /**/**/__pycache__
 .idea
 /**/test_code.py
+/**/**/patient/migrations/*.py
+!/**/**/patient/migrations/__init__.py

@@ -49,7 +49,7 @@ class TypePlace(models.Model):
 
 
 class Place(models.Model):
-    # cities = models.ForeignKey(Cities, on_delete=models.CASCADE)
+    cities = models.ForeignKey(Cities, on_delete=models.CASCADE, null=True)
     address = models.CharField(max_length=100, default="Inconnu")
     type_place = models.ForeignKey(TypePlace, on_delete=models.CASCADE)
 
