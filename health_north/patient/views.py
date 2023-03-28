@@ -24,7 +24,7 @@ def morning(request):
 def layout(request):
     # template = loader.get_template('patient/layout.html')
     # return HttpResponse(template.render(request=request))
-    return render(request, 'patient/layout.html')
+    return render(request, 'layout.html')
 
 
 @login_required(login_url='Login')
@@ -34,7 +34,7 @@ def index(request):
     #    return render(request, 'patient/index.html')
     # else:
     #    return render(request, 'patient/login.html')
-    return render(request, 'patient/index.html')
+    return render(request, 'index.html')
 
 
 def Login(request):
@@ -53,18 +53,18 @@ def Login(request):
             messages.error(request, 'Votre nom d\'utilisateur ou votre mot de passe est incorrect, veuillez réessayer.')
             return redirect('login')
     else:
-        return render(request, 'patient/login.html')
+        return render(request, 'login.html')
 
 
 @login_required(login_url='Login')
 def my_document(request):
     files = Document.objects.filter(profile__user=request.user)  # order_by("-id")
     print(files)
-    return render(request, 'patient/documents.html', {'files': files})
+    return render(request, 'documents.html', {'files': files})
 
 
 def ForgotPassword(request):
-    return render(request, 'patient/forgot-password.html')
+    return render(request, 'forgot-password.html')
 
 
 @login_required(login_url='Login')
@@ -83,7 +83,7 @@ def ProfilSetting(request):
     else:
         form = PasswordChangingForm(request.user)
         # form = PasswordChangeForm(request.user)
-    return render(request, 'patient/modifier-profil.html', {'form': form})  #
+    return render(request, 'modifier-profil.html', {'form': form})  #
 
 
 @login_required(login_url='Login')
@@ -95,22 +95,22 @@ def email_setting(request):
         form = EmailChangingForm(request.user, request.POST)
         if form.is_valid():
             form.save()
-            return render(request, 'patient/email-setting.html')
+            return render(request, 'email-setting.html')
         else:
             messages.error(request, 'Veuillez corriger l\'erreur ci-dessous. ')
     else:
-        return render(request, 'patient/email-setting.html', {'form': form})
+        return render(request, 'email-setting.html', {'form': form})
 
 
 @login_required(login_url='Login')
 def TakeAppointment(request):
-    return render(request, 'patient/prendre-rdv.html')
+    return render(request, 'prendre-rdv.html')
 
 
 @login_required(login_url='Login')
 def Profil(request):
     info = Profile.objects.filter(user=request.user)
-    return render(request, 'patient/profil.html', {'info': info})
+    return render(request, 'profil.html', {'info': info})
 
 
 def Register(request):
@@ -172,19 +172,19 @@ def Register(request):
         messages.success(request, 'Votre compte a été créé avec succès')
         return redirect('login')
 
-    return render(request, 'patient/register.html')
+    return render(request, 'register.html')
 
 
 @login_required(login_url='Login')
 def appointment(request):
     rdv = Appointment.objects.filter(profile__user=request.user)
     print(rdv)
-    return render(request, 'patient/rendez-vous.html', {'rdv': rdv})
+    return render(request, 'rendez-vous.html', {'rdv': rdv})
 
 
 @login_required(login_url='Login')
 def Appointment2(request):
-    return render(request, 'patient/rendez-vous2.html')
+    return render(request, 'rendez-vous2.html')
 
 
 def Logout(request):
