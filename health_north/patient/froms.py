@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import SetPasswordForm
-from pkg_resources import _
-
+# from pkg_resources import _
+from django.utils.translation import gettext as _
 from .models import User
 from django.contrib.auth.forms import PasswordChangeForm
 
