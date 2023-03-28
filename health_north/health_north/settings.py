@@ -75,13 +75,13 @@ WSGI_APPLICATION = 'health_north.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'health-north',
+        'NAME': 'health',
         'USER': 'root',
         'PASSWORD': os.environ.get("MYSQL_PASSWORD", ""),
         'HOST': os.environ.get("MYSQL_HOST", "127.0.0.1"),
         'PORT': '3306',
         'TEST': {
-            'NAME': 'test_health-north',
+            'NAME': 'test_health',
             }
     }
 }
