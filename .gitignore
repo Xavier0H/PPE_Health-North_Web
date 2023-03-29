@@ -5,3 +5,4 @@
 /**/test_code.py
 /**/**/patient/migrations/*.py
 !/**/**/patient/migrations/__init__.py
+ressources
