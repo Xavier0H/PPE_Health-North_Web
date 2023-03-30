@@ -50,7 +50,7 @@ class TypePlace(models.Model):
 
 class Place(models.Model):
     cities = models.ForeignKey(Cities, on_delete=models.CASCADE, null=True)
-    # address = models.CharField(max_length=100, default="Inconnu")
+    address = models.CharField(max_length=100, default="Inconnu")
     type_place = models.ForeignKey(TypePlace, on_delete=models.CASCADE)
 
     class Meta:
@@ -97,7 +97,7 @@ class TypeReview(models.Model):
 class Review(models.Model):
     speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE)
     type_review = models.ForeignKey(TypeReview, on_delete=models.CASCADE)
-    time = models.IntegerField(max_length=5, null=True)
+    time = models.DurationField(verbose_name="Temps d\'examen", null=True)
     class Meta:
         verbose_name = "Examen"
 

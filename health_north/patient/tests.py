@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
-from .models import Region, Department, Cities, Place, Speciality, SpecialityName, Review, TypeReview, Profile, User, \
+from django.utils.dateparse import parse_duration
+from django.contrib.auth.models import User
+from .models import Region, Department, Cities, Place, Speciality, SpecialityName, Review, TypeReview, Profile, \
     TypePlace
 
 
@@ -49,20 +51,25 @@ class PatientTest(TestCase):
         massage = TypeReview.objects.create(review_name='Massage')
         chirurgie = TypeReview.objects.create(review_name='Chirurgie')
 
-        consult_jean = Review.objects.create(time='25', speciality= jean_med, type_review= consulation)
-        analyse_jean = Review.objects.create(time='15', speciality= jean_med, type_review= analyse)
-        consult_martine = Review.objects.create(time='20', speciality= martine_cardio, type_review= consulation)
-        chirurgie_martine = Review.objects.create(time='120', speciality= martine_cardio, type_review= chirurgie)
-        consult_paul = Review.objects.create(time='30', speciality= paul_dentiste, type_review= consulation)
-        chirurgie_paul = Review.objects.create(time='60', speciality= paul_dentiste, type_review= chirurgie)
-        massage_laure = Review.objects.create(time='20', speciality= laure_kine, type_review= massage)
-        reeduc_laure = Review.objects.create(time='30', speciality= laure_kine, type_review= re_education)
+        min = 60
+        consult_jean = Review.objects.create(time='0:00:25:00', speciality=jean_med, type_review=consulation)
+        analyse_jean = Review.objects.create(time='0:00:15:00', speciality=jean_med, type_review=analyse)
+        consult_martine = Review.objects.create(time='0:00:20:00', speciality=martine_cardio, type_review=consulation)
+        chirurgie_martine = Review.objects.create(time='0:00:2:00:00', speciality=martine_cardio, type_review=chirurgie)
+        consult_paul = Review.objects.create(time='0:00:30:00', speciality=paul_dentiste, type_review=consulation)
+        chirurgie_paul = Review.objects.create(time='0:00:60:00', speciality=paul_dentiste, type_review=chirurgie)
+        massage_laure = Review.objects.create(time='0:00:20:00', speciality=laure_kine, type_review=massage)
+        reeduc_laure = Review.objects.create(time='0:00:30:00', speciality=laure_kine, type_review=re_education)
 
-        antoine = User.objects.create(password='BtsSio2023*', username='antoine.dupont', first_name='Antoine', last_name='Dupont', email='antoine.dupont@bts.com')
-        justine = User.objects.create(password='BtsSio2023*', username='justine.ferrari', first_name='Justine', last_name='Ferrari', email='justine.ferrari@bts.com')
+        antoine = User.objects.create(password='BtsSio2023*', username='antoine.dupont', first_name='Antoine',
+                                      last_name='Dupont', email='antoine.dupont@bts.com')
+        justine = User.objects.create(password='BtsSio2023*', username='justine.ferrari', first_name='Justine',
+                                      last_name='Ferrari', email='justine.ferrari@bts.com')
 
-        profil_antoine = Profile.objects.create(adresse='12 rue du pillou 31200 Toulouse', date_of_birth='1986-05-12', user=antoine)
-        profil_justine = Profile.objects.create(adresse='22 chemin de tarbe 31140 Saint-Alban', date_of_birth='1994-11-06', user=justine)
+        profil_antoine = Profile.objects.create(adresse='12 rue du pillou 31200 Toulouse', date_of_birth='1986-05-12',
+                                                user=antoine)
+        profil_justine = Profile.objects.create(adresse='22 chemin de tarbe 31140 Saint-Alban',
+                                                date_of_birth='1994-11-06', user=justine)
 
         # Animal.objects.create(name="lion", sound="roar")
         # Animal.objects.create(name="cat", sound="meow") une region
@@ -81,6 +88,6 @@ class PatientTest(TestCase):
         print(Speciality.objects.all())
         print(TypeReview.objects.all())
         print(Review.objects.all())
-        print(User.objects.username)
+        #print(User.objects.all())
         print(Profile.objects.all())
         pass
