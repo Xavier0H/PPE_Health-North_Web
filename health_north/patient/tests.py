@@ -4,7 +4,7 @@ from django.utils.dateparse import parse_duration
 from django.contrib.auth.models import User
 from .models import Region, Department, Cities, Place, Speciality, SpecialityName, Review, TypeReview, Profile, \
     TypePlace
-
+from datetime import timedelta
 
 # Create your tests here.
 
@@ -51,15 +51,29 @@ class PatientTest(TestCase):
         massage = TypeReview.objects.create(review_name='Massage')
         chirurgie = TypeReview.objects.create(review_name='Chirurgie')
 
-        min = 60
-        consult_jean = Review.objects.create(time='0:00:25:00', speciality=jean_med, type_review=consulation)
-        analyse_jean = Review.objects.create(time='0:00:15:00', speciality=jean_med, type_review=analyse)
-        consult_martine = Review.objects.create(time='0:00:20:00', speciality=martine_cardio, type_review=consulation)
-        chirurgie_martine = Review.objects.create(time='0:00:2:00:00', speciality=martine_cardio, type_review=chirurgie)
-        consult_paul = Review.objects.create(time='0:00:30:00', speciality=paul_dentiste, type_review=consulation)
-        chirurgie_paul = Review.objects.create(time='0:00:60:00', speciality=paul_dentiste, type_review=chirurgie)
-        massage_laure = Review.objects.create(time='0:00:20:00', speciality=laure_kine, type_review=massage)
-        reeduc_laure = Review.objects.create(time='0:00:30:00', speciality=laure_kine, type_review=re_education)
+        delta = timedelta(
+            days=50,
+            seconds=27,
+            microseconds=10,
+            milliseconds=29000,
+            minutes=5,
+            hours=8,
+            weeks=2
+        )
+        vincinq = timedelta(minutes=25)
+        quinze = timedelta(minutes=15)
+        vingt = timedelta(minutes=20)
+        twohours = timedelta(hours=2)
+        onehours = timedelta(hours=1)
+        trente = timedelta(minutes=30)
+        consult_jean = Review.objects.create(time=vincinq, speciality=jean_med, type_review=consulation)
+        analyse_jean = Review.objects.create(time=quinze, speciality=jean_med, type_review=analyse)
+        consult_martine = Review.objects.create(time=vingt, speciality=martine_cardio, type_review=consulation)
+        chirurgie_martine = Review.objects.create(time=twohours, speciality=martine_cardio, type_review=chirurgie)
+        consult_paul = Review.objects.create(time=trente, speciality=paul_dentiste, type_review=consulation)
+        chirurgie_paul = Review.objects.create(time=onehours, speciality=paul_dentiste, type_review=chirurgie)
+        massage_laure = Review.objects.create(time=vingt, speciality=laure_kine, type_review=massage)
+        reeduc_laure = Review.objects.create(time=trente, speciality=laure_kine, type_review=re_education)
 
         antoine = User.objects.create(password='BtsSio2023*', username='antoine.dupont', first_name='Antoine',
                                       last_name='Dupont', email='antoine.dupont@bts.com')
@@ -88,6 +102,6 @@ class PatientTest(TestCase):
         print(Speciality.objects.all())
         print(TypeReview.objects.all())
         print(Review.objects.all())
-        #print(User.objects.all())
+        print(User.objects.all())
         print(Profile.objects.all())
         pass

@@ -80,8 +80,8 @@ class Profile(models.Model):
     date_of_birth = models.DateField()
     speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE, null=True, blank=True)
 
-    def __repr__(self):
-        return 'user %s' % self.user.name
+    #def __repr__(self):
+        # return 'user %s' % self.user.name
 
     class Meta:
         verbose_name = "Profil"
@@ -98,6 +98,7 @@ class Review(models.Model):
     speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE)
     type_review = models.ForeignKey(TypeReview, on_delete=models.CASCADE)
     time = models.DurationField(verbose_name="Temps d\'examen", null=True)
+
     class Meta:
         verbose_name = "Examen"
 
