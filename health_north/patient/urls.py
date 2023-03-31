@@ -15,14 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.urls import path
+from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib.auth import views as auth_views
+from .froms import CustomAuthForm
 
-from patient import views # noqa
+#from patient import views # noqa
+from . import views
 
 urlpatterns = [
-    path('morning/', views.morning),
-    path('layout/', views.layout),
-    path('login/', views.Login, name="login"),
-    path('hello/', views.hello),
+    path('login/', auth_views.LoginView.as_view(template_name="login.html",
+                                                    authentication_form=CustomAuthForm,
+                                                    redirect_authenticated_user=True), name="login"),
+    #path('login/', views._Login, name="login"),
     path('index/', views.index, name="index"),
     path('document/', views.my_document, name="document"),
     path('forgot-password/', views.ForgotPassword, name="forgot-password"),
@@ -30,8 +38,10 @@ urlpatterns = [
     path('email-setting/', views.email_setting, name="email-setting"),
     path('prendre-rdv/', views.TakeAppointment, name="prendre-rdv"),
     path('profil/', views.Profil, name="profil"),
-    path('register/', views.Register, name="register"),
+    path('register/', views.register, name="register"),
     path('logout/', views.Logout, name="logout"),
     path('rendez-vous/', views.appointment, name="rendez-vous"),
     path('rendez-vous2/', views.Appointment2, name="rendez-vous2"),
 ]
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

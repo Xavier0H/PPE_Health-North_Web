@@ -2,7 +2,7 @@
 /**/__pycache__
 /**/**/__pycache__
 .idea
-/**/test_code.py
+/health_north/test_code.py
 /**/**/patient/migrations/*.py
 !/**/**/patient/migrations/__init__.py
 ressources

@@ -1,30 +1,14 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.template import loader, RequestContext
-from django.contrib.auth.models import User
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
 from .models import Profile, User, Speciality, Review, TypeReview, Appointment, Document, TypeDocument, Place
-from .froms import PasswordChangingForm, EmailChangeForm, EmailChangingForm
+from .froms import PasswordChangingForm, EmailChangeForm, EmailChangingForm, RegisterForm, AddProfil
 
 
 # Create your views here.
-
-def hello(request):
-    return HttpResponse('<h1>Voici ma page de test</h1>')
-
-
-def morning(request):
-    return HttpResponse('<h1>Au revoir</h1>')
-
-
-def layout(request):
-    # template = loader.get_template('patient/layout.html')
-    # return HttpResponse(template.render(request=request))
-    return render(request, 'layout.html')
 
 
 @login_required(login_url='Login')
@@ -37,7 +21,7 @@ def index(request):
     return render(request, 'index.html')
 
 
-def Login(request):
+def _Login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -88,10 +72,10 @@ def ProfilSetting(request):
 
 @login_required(login_url='Login')
 def email_setting(request):
-    #form = EmailChangeForm(request.user)
+    # form = EmailChangeForm(request.user)
     form = EmailChangingForm(request.user)
     if request.method == 'POST':
-        #form = EmailChangeForm(request.user, request.POST)
+        # form = EmailChangeForm(request.user, request.POST)
         form = EmailChangingForm(request.user, request.POST)
         if form.is_valid():
             form.save()
@@ -113,66 +97,42 @@ def Profil(request):
     return render(request, 'profil.html', {'info': info})
 
 
-def Register(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        firstname = request.POST['firstname']
-        lastname = request.POST['lastname']
-        email = request.POST['email']
-        password = request.POST['password']
-        # confirm_password = request.POST['confirm-password']
-
-        if User.objects.filter(username=username):
-            messages.error(request, "Ce nom d'utilisateur est déjà utilisé.")
-            return redirect('register')
-        if User.objects.filter(email=email):
-            messages.error(request, 'Cette adresse email est déjà utilisé sur un compte.')
-            return redirect('register')
-        if len(username) > 10:
-            messages.error(request, "Votre nom d'utilisateur ne doit pas dépasser 10 caractères")
-            return redirect('register')
-        if len(username) < 5:
-            messages.error(request, "Le nom d'utilisateur doit comporter au minimum 5 caractères.")
-            return redirect('register')
-        if len(password) > 11:
-
-            lowerCase = False
-            upperCase = False
-            num = False
-            special = False
-
-            for char in password:
-                if char.isdigit():
-                    num = True
-                if char.islower():
-                    lowerCase = True
-                if char.isupper():
-                    upperCase = True
-                if not char.isalnum():
-                    special = True
-
-            if not lowerCase == upperCase == num == special:
-                messages.error(request, "Le mot de passe doit comporter au minimum 12 caractères, comprenant des "
-                                        "majuscules, des minuscules, des chiffres et des caractères spéciaux.")
-                return redirect('register')
-
+def register(request):
+    """Si request = GET si request = POST permet de créer un nouveau compte Client
+                          """
+    if request.user.is_authenticated:
+        return redirect("index")
+    context = {'customer': RegisterForm(),
+               'customerAddr': AddProfil()}
+    if request.method == "POST":
+        # request post
+        form = RegisterForm(request.POST)
+        formRegister = AddProfil(request.POST)
+        if form.is_valid() and formRegister.is_valid():
+            # on insère la nouvelle user dans la base
+            form.save()
+            # on récupère les donnee du formulaire
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            email = form.cleaned_data.get('email')
+            # on récupère l'id de cet utilisateur pour ajouter les donnee dans la table client
+            user = get_object_or_404(User, username=username, email=email)
+            customer = Profile(user=user,
+                               adresse=formRegister.cleaned_data['adresse'],
+                               date_of_birth=formRegister.cleaned_data['date_of_birth'])
+            customer.save()
+            # on connecte l'utilisateur
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            # on redirige vers sont tableau de bord
+            return redirect('DashBoard')
         else:
-            messages.error(request, "Le mot de passe doit comporter au minimum 12 caractères, comprenant des "
-                                    "majuscules, des minuscules, des chiffres et des caractères spéciaux.")
-            return redirect('register')
-
-        if not username.isalnum():
-            messages.error(request, "Votre nom d'utilisateur doit être alphanumeric")
-            return redirect('register')
-
-        my_user = User.objects.create_user(username, email, password)
-        my_user.first_name = firstname
-        my_user.last_name = lastname
-        my_user.save()
-        messages.success(request, 'Votre compte a été créé avec succès')
-        return redirect('login')
-
-    return render(request, 'register.html')
+            context["customer"] = RegisterForm(request.POST)
+            context["customer"] = RegisterForm(request.POST)
+            context['customerAddr'] = AddProfil(request.POST)
+            context = tools.mergeDict(context, {"emailNewsLetter": request.session.get('emailNewsLetter')})
+            request.session['emailNewsLetter'] = ""
+    return render(request, 'register.html', context)
 
 
 @login_required(login_url='Login')

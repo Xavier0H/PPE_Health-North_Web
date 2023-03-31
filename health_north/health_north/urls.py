@@ -21,7 +21,6 @@ from django.conf.urls.static import static
 from patient import views # noqa
 
 urlpatterns = [
-    path('', views.Login, name="login"),
     path('admin/', admin.site.urls),
     path('', include('patient.urls')),
     path('', include('pro.urls')),

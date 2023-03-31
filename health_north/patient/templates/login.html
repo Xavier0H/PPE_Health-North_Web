@@ -52,32 +52,14 @@
                                         <h1 class="h6 text-gray-900 mb-4">{{ message }}</h1>
                                     </div>
                                     {% endfor %}
-                                    <form method="post" action="/login/" class="user">
+                                    <form method="post" action="{% url 'login' %}" class="user">
                                         {% csrf_token  %}
                                         <div class="form-group">
-                                            <input type="text" name="username" class="form-control form-control-user"
-                                                id="exampleInputUsername"
-                                                placeholder="Entrer votre nom d'utilisateur">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" name="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Mot de passe">
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Se rappeler de moi.</label>
-                                            </div>
+                                            {{ form.as_p }}
                                         </div>
                                          <button type="submit" class="btn btn-primary btn-user btn-block">Connexion</button>
-                                        <a href="{%url 'index' %}" class="btn btn-primary btn-user btn-block">
-                                            Connexion
-                                        </a>
                                     </form>
                                     <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Mot de passe oublié ?</a>
-                                    </div>
                                     <div class="text-center">
                                         <a class="small" href="{%url 'register' %}">Pas de compte ? Créez-en un ?</a>
                                     </div>

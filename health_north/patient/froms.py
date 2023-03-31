@@ -3,7 +3,68 @@ from django.contrib.auth.forms import SetPasswordForm
 # from pkg_resources import _
 from django.utils.translation import gettext as _
 from .models import User
+from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned, ValidationError
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.forms import Form, TextInput, EmailInput, CharField, EmailField, PasswordInput, RadioSelect, BooleanField, \
+    DateField
+
+
+class CustomAuthForm(AuthenticationForm):
+    username = CharField(
+        widget=TextInput(attrs={'class': 'form-control form-control-user', 'placeholder': 'Identifiant'}))
+    password = CharField(
+        widget=PasswordInput(attrs={'class': 'form-control form-control-user', 'placeholder': 'Mot de passe'}))
+
+
+class AddProfil(Form):
+    adresse = CharField(label='Adresse', widget=TextInput(
+        attrs={'class': 'form-control RegisterForm', 'placeholder': 'Votre adresse postal'})
+                        )
+    date_of_birth = DateField(label='Date de naissance :')
+
+
+class RegisterForm(UserCreationForm):
+    username = CharField(widget=TextInput(
+        attrs={'class': 'form-control form-control-user', 'placeholder': '', 'id': 'username'}), required=True
+    )
+    email = EmailField(
+        widget=EmailInput(attrs={"class": "form-control form-control-user", 'id': 'email'}), required=True
+    )
+    password1 = CharField(max_length=45, widget=PasswordInput(attrs={'class': 'form-control form-control-user',
+                                                                     'id': 'password1'}))
+    password2 = CharField(max_length=45, widget=PasswordInput(attrs={'class': 'form-control form-control-user',
+                                                                     'id': 'password2'}))
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
+        required = ["username", "email", 'password1', 'password2']
+
+    def clean_email(self):
+        """Permet de verifier si le champ email du formulaire est valide
+           si la vérification échoue une erreur de type ValidationError est lever
+                      """
+        _email = self.cleaned_data.get('email')
+        try:
+            User.objects.get(email=_email.strip())
+            raise ValidationError('L\'addresse email %s est deja utiliser.' % _email.strip())
+        except ObjectDoesNotExist:
+            return _email
+        except MultipleObjectsReturned:
+            raise ValidationError('L\'addresse email %s est deja utiliser.' % _email.strip())
+
+    def clean_username(self):
+        """Permet de verifier si le champ username du formulaire est valide
+           si la vérification échoue une erreur de type ValidationError est lever
+                              """
+        _username = self.cleaned_data.get('username')
+        try:
+            User.objects.get(username=_username.strip())
+            raise ValidationError('Le pseudo %s est deja utilisé.' % _username.strip())
+        except ObjectDoesNotExist:
+            return _username
 
 
 class PasswordChangingForm(PasswordChangeForm):
@@ -74,6 +135,8 @@ class EmailChangeForm(forms.Form):
 
 
 class EmailChangingForm(EmailChangeForm):
-    #email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control form-control-user', 'type': 'email'}))
-    new_email1 = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control form-control-user', 'type': 'email'}))
-    new_email2 = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control form-control-user', 'type': 'email'}))
+    # email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control form-control-user', 'type': 'email'}))
+    new_email1 = forms.CharField(
+        widget=forms.EmailInput(attrs={'class': 'form-control form-control-user', 'type': 'email'}))
+    new_email2 = forms.CharField(
+        widget=forms.EmailInput(attrs={'class': 'form-control form-control-user', 'type': 'email'}))

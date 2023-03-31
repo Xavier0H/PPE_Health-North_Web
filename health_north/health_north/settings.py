@@ -24,7 +24,9 @@ SECRET_KEY = 'django-insecure-o+@=$br)9boai0^nyc(2+ehk%pv2-hiy9upr#vt9oe!zu@69(^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "*"
+]
 
 # Application definition
 
@@ -131,4 +133,9 @@ STATICFILES_DIRS = (
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
 MEDIA_URL = '/upload/'
+
+LOGIN_URL = '/login/'
+
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_URL = ''
 
