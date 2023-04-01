@@ -18,7 +18,7 @@ def index(request):
     return render(request, 'index.html')
 
 
-def _Login(request):
+def Old_Login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -27,9 +27,7 @@ def _Login(request):
             login(request, user)
             firstname = user.first_name
             lastname = user.last_name
-            # return render(request, 'patient/index.html', {'firstname': firstname})
             return redirect('index')
-            # return render(request, 'patient/index.html')
         else:
             messages.error(request, 'Votre nom d\'utilisateur ou votre mot de passe est incorrect, veuillez réessayer.')
             return redirect('login')
@@ -44,12 +42,8 @@ def my_document(request):
     return render(request, 'documents.html', {'files': files})
 
 
-def ForgotPassword(request):
-    return render(request, 'forgot-password.html')
-
-
 @login_required(login_url='Login')
-def ProfilSetting(request):
+def profilSetting(request):
     if request.method == 'POST':
         form = PasswordChangingForm(request.user, request.POST)
         # form = PasswordChangeForm(request.user, request.POST)
@@ -84,48 +78,43 @@ def email_setting(request):
 
 
 @login_required(login_url='Login')
-def TakeAppointment(request):
+def takeAppointment(request):
     return render(request, 'prendre-rdv.html')
 
 
 @login_required(login_url='Login')
-def Profil(request):
+def profil(request):
     info = Profile.objects.filter(user=request.user)
     return render(request, 'profil.html', {'info': info})
 
 
 def register(request):
-    """Si request = GET si request = POST permet de créer un nouveau compte Client
-                          """
     if request.user.is_authenticated:
         return redirect("index")
     context = {'register': RegisterForm(), 'profilAdd': AddProfil()}  #
     if request.method == "POST":
-        # request post
-        form = RegisterForm(request.POST)
-        formRegister = AddProfil(request.POST)
-        if form.is_valid() and formRegister.is_valid():
-            # on insère la nouvelle user dans la base
-            form.save()
+        formAddUser = RegisterForm(request.POST)
+        formAddProfil = AddProfil(request.POST)
+        if formAddUser.is_valid() and formAddProfil.is_valid():
+            # sauvegarde du new user dans BDD
+            formAddUser.save()
             # on récupère les donnee du formulaire
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            email = form.cleaned_data.get('email')
-            # on récupère l'id de cet utilisateur pour ajouter les donnee dans la table client
+            username = formAddUser.cleaned_data.get('username')
+            raw_password = formAddUser.cleaned_data.get('password1')
+            email = formAddUser.cleaned_data.get('email')
+            # on récupère l'id de l'user pour le lié à un profil
             user = get_object_or_404(User, username=username, email=email)
             newUser = Profile(user=user,
-                              adresse=formRegister.cleaned_data['adresse'],
-                              date_of_birth=formRegister.cleaned_data['date_of_birth'])
+                              adresse=formAddProfil.cleaned_data['adresse'],
+                              date_of_birth=formAddProfil.cleaned_data['date_of_birth'])
             newUser.save()
             # on connecte l'utilisateur
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            # on redirige vers sont tableau de bord
             return redirect('index')
         else:
             context["register"] = RegisterForm(request.POST)
             context['profilAdd'] = AddProfil(request.POST)
-    print(context)
     return render(request, 'register.html', context)
 
 
@@ -137,7 +126,7 @@ def appointment(request):
 
 
 @login_required(login_url='Login')
-def Appointment2(request):
+def appointment2(request):
     return render(request, 'rendez-vous2.html')
 
 

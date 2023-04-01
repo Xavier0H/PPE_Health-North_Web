@@ -64,20 +64,20 @@ class RegisterForm(UserCreationForm):
 
     def clean_email(self):
         """Permet de verifier si le champ email du formulaire est valide
-           si la vérification échoue une erreur de type ValidationError est lever
+           si la vérification échoue une erreur de type ValidationError est levé
                       """
         _email = self.cleaned_data.get('email')
         try:
             User.objects.get(email=_email.strip())
-            raise ValidationError('L\'addresse email %s est deja utiliser.' % _email.strip())
+            raise ValidationError('L\'adresse email %s est deja utiliser.' % _email.strip())
         except ObjectDoesNotExist:
             return _email
         except MultipleObjectsReturned:
-            raise ValidationError('L\'addresse email %s est deja utiliser.' % _email.strip())
+            raise ValidationError('L\'adresse email %s est deja utiliser.' % _email.strip())
 
     def clean_username(self):
         """Permet de verifier si le champ username du formulaire est valide
-           si la vérification échoue une erreur de type ValidationError est lever
+           si la vérification échoue une erreur de type ValidationError est levé
                               """
         _username = self.cleaned_data.get('username')
         try:
