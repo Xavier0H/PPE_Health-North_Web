@@ -32,7 +32,7 @@
         <!-- Forms -->
         <form method="POST" class="user">
             {% csrf_token %}
-                    {{ form }}
+                    {{ form.as_p }}
         </br>
             <button type="submit" class="btn btn-primary btn-user btn-block">Modifier les informations</button>
         </form>

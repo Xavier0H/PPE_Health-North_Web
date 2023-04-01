@@ -16,7 +16,7 @@
         <form method="POST" class="user">
             {% csrf_token %}
 
-            {{ form }}
+            {{ form.as_p }}
 
             </br><hr>
 

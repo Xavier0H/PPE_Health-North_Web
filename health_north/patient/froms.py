@@ -11,10 +11,12 @@ from django.forms import Form, TextInput, DateInput, EmailInput, CharField, Emai
 
 
 class CustomAuthForm(AuthenticationForm):
-    username = CharField(
-        widget=TextInput(attrs={'class': 'form-control form-control-user', 'placeholder': 'Identifiant'}))
-    password = CharField(
-        widget=PasswordInput(attrs={'class': 'form-control form-control-user', 'placeholder': 'Mot de passe'}))
+    username = CharField(label='Nom d\'utilisateur :',
+                         widget=TextInput(
+                             attrs={'class': 'form-control form-control-user', 'placeholder': 'Identifiant'}))
+    password = CharField(label='Mot de passe :',
+                         widget=PasswordInput(
+                             attrs={'class': 'form-control form-control-user', 'placeholder': 'Mot de passe'}))
 
 
 class AddProfil(Form):
@@ -26,30 +28,29 @@ class AddProfil(Form):
 
 
 class RegisterForm(UserCreationForm):
-    username = CharField(widget=TextInput(
+    username = CharField(label='Nom d\'utilisateur :', widget=TextInput(
         attrs={'class': 'mb-3 mb-sm-0 form-control', 'placeholder': 'Nom d\'utilisateur',
                'id': 'username'}), required=True
-    )
-    first_name = CharField(widget=TextInput(
+                         )
+    first_name = CharField(label='Prénom :', widget=TextInput(
         attrs={'class': 'col-sm-6 mb-3 mb-sm-0 form-control', 'placeholder': 'Prénom',
                'id': 'firstname',
                'name': "first_name"}), required=True
-    )
-    last_name = CharField(widget=TextInput(
+                           )
+    last_name = CharField(label='Nom de famille :', widget=TextInput(
         attrs={'class': 'col-sm-6 form-control', 'placeholder': 'Nom', 'id': 'lastname',
                'name': "last_name"}), required=True
-    )
+                          )
     email = EmailField(
         widget=EmailInput(attrs={"class": "form-group form-control", 'placeholder': 'Adresse email',
                                  'id': 'email'}), required=True
     )
-    password1 = CharField(max_length=45, widget=PasswordInput(attrs={
+    password1 = CharField(max_length=45, label='Mot de passe :', widget=PasswordInput(attrs={
         'class': 'col-sm-6 mb-3 mb-sm-0 form-control', 'placeholder': "Mot de passe",
         'id': 'password1'
     }))
-    password2 = CharField(max_length=45, widget=PasswordInput(attrs={'class': 'col-sm-6 form-control',
-                                                                     'placeholder': "Confirmer votre mot de passe",
-                                                                     'id': 'password2'}))
+    password2 = CharField(max_length=45, label='Confirmation mot de passe :', widget=PasswordInput(
+        attrs={'class': 'col-sm-6 form-control', 'placeholder': "Confirmer votre mot de passe", 'id': 'password2'}))
 
     class Meta:
         model = User
@@ -87,12 +88,14 @@ class RegisterForm(UserCreationForm):
 
 
 class PasswordChangingForm(PasswordChangeForm):
-    old_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'form-control form-control-user', 'type': 'password'}))
-    new_password1 = forms.CharField(max_length=100, widget=forms.PasswordInput(
+    old_password = forms.CharField(label='Ancien mot de passe :',
+                                   widget=forms.PasswordInput(
+                                       attrs={'class': 'form-control form-control-user', 'type': 'password'}))
+    new_password1 = forms.CharField(max_length=100, label='Nouveau mot de passe :', widget=forms.PasswordInput(
         attrs={'class': 'form-control form-control-user', 'type': 'password'}))
-    new_password2 = forms.CharField(max_length=100, widget=forms.PasswordInput(
-        attrs={'class': 'form-control form-control-user', 'type': 'password'}))
+    new_password2 = forms.CharField(max_length=100, label='Confirmation du nouveau mot de passe :',
+                                    widget=forms.PasswordInput(attrs={'class': 'form-control form-control-user',
+                                                                      'type': 'password'}))
 
     class Meta:
         model = User
@@ -154,8 +157,9 @@ class EmailChangeForm(forms.Form):
 
 
 class EmailChangingForm(EmailChangeForm):
-    # email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control form-control-user', 'type': 'email'}))
-    new_email1 = forms.CharField(
-        widget=forms.EmailInput(attrs={'class': 'form-control form-control-user', 'type': 'email'}))
-    new_email2 = forms.CharField(
-        widget=forms.EmailInput(attrs={'class': 'form-control form-control-user', 'type': 'email'}))
+    new_email1 = forms.CharField(label='Nouvelle adresse email :',
+                                 widget=forms.EmailInput(
+                                     attrs={'class': 'form-control form-control-user', 'type': 'email'}))
+    new_email2 = forms.CharField(label='Confirmation de la nouvelle adresse email :',
+                                 widget=forms.EmailInput(
+                                     attrs={'class': 'form-control form-control-user', 'type': 'email'}))
