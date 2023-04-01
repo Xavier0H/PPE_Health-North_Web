@@ -11,13 +11,10 @@ from .froms import PasswordChangingForm, EmailChangeForm, EmailChangingForm, Reg
 # Create your views here.
 
 
-@login_required(login_url='Login')
+# @login_required(login_url='Login')
 def index(request):
-    # user = authenticate()
-    # if user is not None:
-    #    return render(request, 'patient/index.html')
-    # else:
-    #    return render(request, 'patient/login.html')
+    if not request.user.is_authenticated:
+        return redirect("login")
     return render(request, 'index.html')
 
 
@@ -102,8 +99,7 @@ def register(request):
                           """
     if request.user.is_authenticated:
         return redirect("index")
-    context = {'customer': RegisterForm(),
-               'customerAddr': AddProfil()}
+    context = {'register': RegisterForm(), 'profilAdd': AddProfil()}  #
     if request.method == "POST":
         # request post
         form = RegisterForm(request.POST)
@@ -117,21 +113,19 @@ def register(request):
             email = form.cleaned_data.get('email')
             # on récupère l'id de cet utilisateur pour ajouter les donnee dans la table client
             user = get_object_or_404(User, username=username, email=email)
-            customer = Profile(user=user,
-                               adresse=formRegister.cleaned_data['adresse'],
-                               date_of_birth=formRegister.cleaned_data['date_of_birth'])
-            customer.save()
+            newUser = Profile(user=user,
+                              adresse=formRegister.cleaned_data['adresse'],
+                              date_of_birth=formRegister.cleaned_data['date_of_birth'])
+            newUser.save()
             # on connecte l'utilisateur
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             # on redirige vers sont tableau de bord
-            return redirect('DashBoard')
+            return redirect('index')
         else:
-            context["customer"] = RegisterForm(request.POST)
-            context["customer"] = RegisterForm(request.POST)
-            context['customerAddr'] = AddProfil(request.POST)
-            context = tools.mergeDict(context, {"emailNewsLetter": request.session.get('emailNewsLetter')})
-            request.session['emailNewsLetter'] = ""
+            context["register"] = RegisterForm(request.POST)
+            context['profilAdd'] = AddProfil(request.POST)
+    print(context)
     return render(request, 'register.html', context)
 
 

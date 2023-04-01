@@ -45,47 +45,34 @@
                                     <h1 class="h6 text-gray-900 mb-4">{{ message }}</h1>
                                 </div>
                             {% endfor %}
-                            <form method="post" action="/register/" class="user">
+                            <form method="post" action="{% url 'register' %}" class="user">
                                 {% csrf_token  %}
-
-                                <div class="mb-3 mb-sm-0">
-                                    <input type="text" name="username" class="form-control form-control-user" id="exampleUsername"
-                                            placeholder="Nom d'utilisateur" required>
+                                <div class="form-group">
+                                            {{ register.as_p }}
+                                            {{ profilAdd.as_p }}
                                 </div>
+                        <!--
                                 <br>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" name="firstname" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="Prénom" required>
+                                        <input name="firstname" class="form-control form-control-user">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" name="lastname" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Nom" required>
+                                        <input name="lastname" class="form-control form-control-user">
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Adresse email" required>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" name="password" class="form-control form-control-user"
-                                            id="password" placeholder="Mot de passe" required>
+                                        <input name="password" class="form-control form-control-user">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="password" name="confirm-password" class="form-control form-control-user"
-                                            id="confirm_password" placeholder="Confirmer votre mot de passe" required>
+                                        <input name="confirm-password" class="form-control form-control-user">
                                     </div>
                                 </div>
+                        -->
                                 <button type="submit" class="btn btn-primary btn-user btn-block">Créer un compte</button>
-                                <a href="{%url 'login' %}" class="btn btn-primary btn-user btn-block">
-                                    Créer un compte
-                                </a>
                             </form>
                             <hr>
-                            <div class="text-center">
-                                <a class="small" href="forgot-password.html">Mot de passe oublié ?</a>
-                            </div>
                             <div class="text-center">
                                 <a class="small" href="{%url 'login' %}">Vous avez déjà un compte ? Connectez-vous !</a>
                             </div>

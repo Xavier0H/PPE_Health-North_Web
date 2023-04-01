@@ -7,8 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned, ValidationError
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.forms import AuthenticationForm
-from django.forms import Form, TextInput, EmailInput, CharField, EmailField, PasswordInput, RadioSelect, BooleanField, \
-    DateField
+from django.forms import Form, TextInput, DateInput, EmailInput, CharField, EmailField, PasswordInput, DateField
 
 
 class CustomAuthForm(AuthenticationForm):
@@ -22,25 +21,45 @@ class AddProfil(Form):
     adresse = CharField(label='Adresse', widget=TextInput(
         attrs={'class': 'form-control RegisterForm', 'placeholder': 'Votre adresse postal'})
                         )
-    date_of_birth = DateField(label='Date de naissance :')
+    date_of_birth = DateField(label='Date de naissance :', widget=DateInput(
+        attrs={'class': 'col-sm-6 mb-3 mb-sm-0 form-control', 'placeholder': 'JJ/MM/AAAA'}))
 
 
 class RegisterForm(UserCreationForm):
     username = CharField(widget=TextInput(
-        attrs={'class': 'form-control form-control-user', 'placeholder': '', 'id': 'username'}), required=True
+        attrs={'class': 'mb-3 mb-sm-0 form-control', 'placeholder': 'Nom d\'utilisateur',
+               'id': 'username'}), required=True
+    )
+    first_name = CharField(widget=TextInput(
+        attrs={'class': 'col-sm-6 mb-3 mb-sm-0 form-control', 'placeholder': 'Prénom',
+               'id': 'firstname',
+               'name': "first_name"}), required=True
+    )
+    last_name = CharField(widget=TextInput(
+        attrs={'class': 'col-sm-6 form-control', 'placeholder': 'Nom', 'id': 'lastname',
+               'name': "last_name"}), required=True
     )
     email = EmailField(
-        widget=EmailInput(attrs={"class": "form-control form-control-user", 'id': 'email'}), required=True
+        widget=EmailInput(attrs={"class": "form-group form-control", 'placeholder': 'Adresse email',
+                                 'id': 'email'}), required=True
     )
-    password1 = CharField(max_length=45, widget=PasswordInput(attrs={'class': 'form-control form-control-user',
-                                                                     'id': 'password1'}))
-    password2 = CharField(max_length=45, widget=PasswordInput(attrs={'class': 'form-control form-control-user',
+    password1 = CharField(max_length=45, widget=PasswordInput(attrs={
+        'class': 'col-sm-6 mb-3 mb-sm-0 form-control', 'placeholder': "Mot de passe",
+        'id': 'password1'
+    }))
+    password2 = CharField(max_length=45, widget=PasswordInput(attrs={'class': 'col-sm-6 form-control',
+                                                                     'placeholder': "Confirmer votre mot de passe",
                                                                      'id': 'password2'}))
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2')
-        required = ["username", "email", 'password1', 'password2']
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
+        required = ["username", "first_name", "last_name", "email", 'password1', 'password2']
+
+    def first_last_name(self):
+        first_name = self.cleaned_data.get('first_name')
+        last_name = self.cleaned_data.get('last_name')
+        return last_name, first_name
 
     def clean_email(self):
         """Permet de verifier si le champ email du formulaire est valide
