@@ -10,7 +10,7 @@ data = []
 
 
 def _region():
-    with open(f'../ressources/regions.json', 'r', encoding="utf8") as txt:
+    with open(f'ressources/regions.json', 'r', encoding="utf8") as txt:
         data = json.loads(txt.read())
         print(data)
         print(type(data))
@@ -20,7 +20,7 @@ def _region():
 
 
 def _department():
-    with open(f'../ressources/departments.json', 'r', encoding="utf8") as txt:
+    with open(f'ressources/departments.json', 'r', encoding="utf8") as txt:
         data = json.loads(txt.read())
         print(data)
         print(type(data))
@@ -34,7 +34,7 @@ def _department():
 
 
 def _cities():
-    with open(f'../ressources/cities.json', 'r', encoding="utf8") as txt:
+    with open(f'ressources/cities.json', 'r', encoding="utf8") as txt:
         data = json.loads(txt.read())
         print(data)
         print(type(data))
@@ -48,5 +48,6 @@ def _cities():
             # print(cities)
             cities.save()
 
+# _region()
 # _department()
 # _cities()

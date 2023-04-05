@@ -18,23 +18,6 @@ def index(request):
     return render(request, 'index.html')
 
 
-def Old_Login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            firstname = user.first_name
-            lastname = user.last_name
-            return redirect('index')
-        else:
-            messages.error(request, 'Votre nom d\'utilisateur ou votre mot de passe est incorrect, veuillez réessayer.')
-            return redirect('login')
-    else:
-        return render(request, 'login.html')
-
-
 @login_required(login_url='Login')
 def my_document(request):
     files = Document.objects.filter(profile__user=request.user)  # order_by("-id")
