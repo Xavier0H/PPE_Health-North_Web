@@ -1,0 +1,26 @@
+{% extends 'profil_base.html' %}
+
+{% block content %}
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Prendre un rendez-vous</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-lg-9">
+            {% for message in messages %}
+                <div class="text-center">
+                    <h1 class="h6 text-gray-900 mb-4">{{ message }}</h1>
+                </div>
+            {% endfor %}
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ take.as_p }}
+                <input type="submit" value="Envoyer">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

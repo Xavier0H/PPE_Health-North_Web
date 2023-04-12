@@ -12,6 +12,9 @@ class Region(models.Model):
     name = models.CharField(max_length=255)
     slug = models.CharField(max_length=255)
 
+    def __str__(self):
+        return f'{self.name}'
+
     class Meta:
         verbose_name = "Région"
 
@@ -21,6 +24,9 @@ class Department(models.Model):
     code = models.CharField(max_length=3)
     name = models.CharField(max_length=255)
     slug = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f'{self.name}'
 
     class Meta:
         verbose_name = "Département"
@@ -36,12 +42,18 @@ class Cities(models.Model):
     gps_lat = models.DecimalField(max_digits=16, decimal_places=14)
     gps_lng = models.DecimalField(max_digits=17, decimal_places=14)
 
+    def __str__(self):
+        return f'{self.name}'
+
     class Meta:
         verbose_name = "Ville"
 
 
 class TypePlace(models.Model):
     type_place_name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f'{self.type_place_name}'
 
     class Meta:
         verbose_name = "Type de lieu"
@@ -53,6 +65,9 @@ class Place(models.Model):
     address = models.CharField(max_length=100, default="Inconnu")
     type_place = models.ForeignKey(TypePlace, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.address} {self.cities} {self.type_place}'
+
     class Meta:
         verbose_name = "Lieu"
         verbose_name_plural = "Lieux"
@@ -60,6 +75,9 @@ class Place(models.Model):
 
 class SpecialityName(models.Model):
     speciality_name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f'{self.speciality_name}'
 
     class Meta:
         verbose_name = "Nom de la spécialité"
@@ -69,6 +87,9 @@ class Speciality(models.Model):
     speciality_name = models.ForeignKey(SpecialityName, on_delete=models.CASCADE)
     specialist_name = models.CharField(max_length=50)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.specialist_name}'
 
     class Meta:
         verbose_name = "Spécialiste"
@@ -80,6 +101,9 @@ class Profile(models.Model):
     date_of_birth = models.DateField()
     speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE, null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.user}'
+
     #def __repr__(self):
         # return 'user %s' % self.user.name
 
@@ -90,6 +114,9 @@ class Profile(models.Model):
 class TypeReview(models.Model):
     review_name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return f'{self.review_name}'
+
     class Meta:
         verbose_name = "Type d'examen'"
 
@@ -98,6 +125,9 @@ class Review(models.Model):
     speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE)
     type_review = models.ForeignKey(TypeReview, on_delete=models.CASCADE)
     time = models.DurationField(verbose_name="Temps d\'examen", null=True)
+
+    def __str__(self):
+        return f'{self.type_review}'
 
     class Meta:
         verbose_name = "Examen"
@@ -109,6 +139,9 @@ class Appointment(models.Model):
     date = models.DateTimeField()
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.profile} {self.date}'
+
     class Meta:
         verbose_name = "Rendez-vous"
         verbose_name_plural = "Rendez-vous"
@@ -116,6 +149,9 @@ class Appointment(models.Model):
 
 class TypeDocument(models.Model):
     type_document_name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f'{self.type_document_name}'
 
     class Meta:
         verbose_name = "Type de document"
@@ -127,3 +163,6 @@ class Document(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     type_document_name = models.ForeignKey(TypeDocument, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.profile} {self.type_document_name} {self.create_date}'

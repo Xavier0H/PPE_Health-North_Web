@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils.dateparse import parse_duration
 from django.contrib.auth.models import User
 from .models import Region, Department, Cities, Place, Speciality, SpecialityName, Review, TypeReview, Profile, \
-    TypePlace
+    TypePlace, Appointment
 from datetime import timedelta
 
 # Create your tests here.
@@ -66,6 +66,8 @@ class PatientTest(TestCase):
         twohours = timedelta(hours=2)
         onehours = timedelta(hours=1)
         trente = timedelta(minutes=30)
+        tenhours = timedelta(hours=10)
+
         consult_jean = Review.objects.create(time=vincinq, speciality=jean_med, type_review=consulation)
         analyse_jean = Review.objects.create(time=quinze, speciality=jean_med, type_review=analyse)
         consult_martine = Review.objects.create(time=vingt, speciality=martine_cardio, type_review=consulation)
@@ -85,6 +87,7 @@ class PatientTest(TestCase):
         profil_justine = Profile.objects.create(adresse='22 chemin de tarbe 31140 Saint-Alban',
                                                 date_of_birth='1994-11-06', user=justine)
 
+        Appointment.objects.create(date="2023-03-17 14:30:00+00:00", profile=profil_antoine, specialist_name=jean_med, review=consult_jean)
         # Animal.objects.create(name="lion", sound="roar")
         # Animal.objects.create(name="cat", sound="meow") une region
         # une ville un departement. deux lieux, chaque lieux deux specialiste,chaque specialiste deux examen,
@@ -104,4 +107,9 @@ class PatientTest(TestCase):
         print(Review.objects.all())
         print(User.objects.all())
         print(Profile.objects.all())
-        pass
+        print(Appointment.objects.all())
+
+    def test_get_appointment_time(self):
+
+        for appointment in Appointment.objects.filter(specialist_name=self.jean_med):
+            print(appointment.time)

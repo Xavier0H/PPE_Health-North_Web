@@ -18,10 +18,27 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
 from patient import views # noqa
+from shop import views # noqa
+from rest_framework import routers
+
+from patient.views import AppointmentViewset, DocumentViewset, ProfileViewset # noqa
+
+# Ici nous créons notre routeur
+router = routers.SimpleRouter()
+# Puis lui déclarons une url basée sur le mot clé ‘category’ et notre view
+# afin que l’url générée soit celle que nous souhaitons ‘/api/category/’
+router.register('appointment', AppointmentViewset, basename='appointment')
+router.register('document', DocumentViewset, basename='document')
+router.register('profile', ProfileViewset, basename='profile')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('shop.urls')),
     path('', include('patient.urls')),
-    path('', include('pro.urls')),
+    #path('api-auth/', include('rest_framework.urls'),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/', include(router.urls)),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

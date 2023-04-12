@@ -2,13 +2,17 @@ from django import forms
 from django.contrib.auth.forms import SetPasswordForm
 # from pkg_resources import _
 from django.utils.translation import gettext as _
-from .models import User
+from .models import User, Appointment
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned, ValidationError
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms import Form, TextInput, DateInput, EmailInput, CharField, EmailField, PasswordInput, DateField
 
+class AppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = '__all__'
 
 class CustomAuthForm(AuthenticationForm):
     username = CharField(label='Nom d\'utilisateur :',

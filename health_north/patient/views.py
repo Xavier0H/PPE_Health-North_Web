@@ -5,7 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from .models import Profile, User, Speciality, Review, TypeReview, Appointment, Document, TypeDocument, Place
-from .froms import PasswordChangingForm, EmailChangeForm, EmailChangingForm, RegisterForm, AddProfil
+from .froms import PasswordChangingForm, EmailChangeForm, EmailChangingForm, RegisterForm, AddProfil, AppointmentForm
+
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+
+from .serializers import AppointmentSerializer, DocumentSerializer, ProfileSerializer
 
 
 # Create your views here.
@@ -106,14 +110,46 @@ def appointment(request):
     rdv = Appointment.objects.filter(profile__user=request.user)
     print(rdv)
     return render(request, 'rendez-vous.html', {'rdv': rdv})
+    # pass
 
 
 @login_required(login_url='Login')
-def appointment2(request):
-    return render(request, 'rendez-vous2.html')
+def take_appointment(request):
+    if request.method == 'POST':
+        take = AppointmentForm()
+        if take.is_valid():
+            band = take.save()
+            return redirect('rendez-vous')
+    else:
+        take = AppointmentForm()
+    return render(request, 'take-appointment.html', {'take': take})
 
 
-def Logout(request):
+def logout_view(request):
     logout(request)
     messages.success(request, 'Vous vous êtes bien déconnecté.')
     return redirect('login')
+    # pass
+
+
+class AppointmentViewset(ReadOnlyModelViewSet):
+    serializer_class = AppointmentSerializer
+
+    # queryset = Appointment.objects.all()
+
+    def get_queryset(self):
+        return Appointment.objects.filter(profile__user=self.request.user)
+
+
+class DocumentViewset(ReadOnlyModelViewSet):
+    serializer_class = DocumentSerializer
+
+    def get_queryset(self):
+        return Document.objects.filter(profile__user=self.request.user)
+
+
+class ProfileViewset(ReadOnlyModelViewSet):
+    serializer_class = ProfileSerializer
+
+    def get_queryset(self):
+        return Profile.objects.filter(user=self.request.user)
