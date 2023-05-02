@@ -38,8 +38,7 @@ urlpatterns = [
     path('', include('shop.urls')),
     path('', include('patient.urls')),
     #path('api-auth/', include('rest_framework.urls'),
-    path('api/auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/', include(router.urls)),
-    path('api/auth/', include('djoser.urls.authtoken')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

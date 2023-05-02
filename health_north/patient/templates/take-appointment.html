@@ -18,9 +18,56 @@
                 {{ take.as_p }}
                 <input type="submit" value="Envoyer">
             </form>
+            <form name="dynamicForm" id="id_dynamicForm" action="" method="get">
+                <select name="speciality" id="id_speciality_name" form="id_dynamicForm">
+                    {% for test in take %}
+                        <option value="{{ test.speciality_name }}">{{ test.speciality_name }}</option>
+                    {% endfor %}
+                </select>
+
+                <select name="specialist" id="id_specialist_name" form="id_dynamicForm">
+                    {% for test in take %}
+                        <option value="{{ test.specialist_name }}">{{ test.specialist_name }}</option>
+                    {% endfor %}
+                </select>
+
+                <select name="review" id="id_review" form="id_dynamicForm">
+                    {% for test in take %}
+                        <option value="{{ test.review }}">{{ test.review }}</option>
+                    {% endfor %}
+                </select>
+
+            </form>
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+    // Sélection de la spécialité
+    $('#id_speciality_name').change(function () {
+        var specialityId = $(this).val();
+        console.log(specialityId); // Vérification de l'ID de spécialité sélectionné
+
+        // Requête Ajax pour récupérer les spécialistes associés
+        $.ajax({
+            url: '/take-appointment/' + specialityId,
+            type: 'get',
+            dataType: 'json',
+            success: function (response) {
+                console.log(response); // Vérification de la réponse du serveur
+                $('#id_specialist_name').empty();
+                $('#id_review').empty();
+                $.each(response, function (key, value) {
+                    $('#id_specialist_name').append('<option value="' + value.specialist_id + '">' + value.specialist_name + '</option>');
+                });
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+});
+</script>
 {% endblock %}
 
 

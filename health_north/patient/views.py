@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
@@ -5,7 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from .models import Profile, User, Speciality, Review, TypeReview, Appointment, Document, TypeDocument, Place
-from .froms import PasswordChangingForm, EmailChangeForm, EmailChangingForm, RegisterForm, AddProfil, AppointmentForm
+from .froms import PasswordChangingForm, EmailChangeForm, EmailChangingForm, RegisterForm, AddProfil, AppointmentForm, \
+    Appointment2Form, Appointment1Form
 
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
@@ -114,15 +116,25 @@ def appointment(request):
 
 
 @login_required(login_url='Login')
-def take_appointment(request):
+def take_appointment(request, speciality_id=None):
     if request.method == 'POST':
-        take = AppointmentForm()
+        # Traitement du formulaire soumis
+        take = Appointment1Form(request.POST)
         if take.is_valid():
-            band = take.save()
+            appointment = take.save(commit=False)
+            appointment.user = request.user
+            appointment.save()
+            messages.success(request, 'Le rendez-vous a été créé avec succès.')
             return redirect('rendez-vous')
+        else:
+            messages.error(request, 'Erreur: Veuillez vérifier le formulaire ci-dessous.')
     else:
-        take = AppointmentForm()
-    return render(request, 'take-appointment.html', {'take': take})
+        # Affichage du formulaire vide
+        take = Appointment1Form()
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest' and speciality_id:
+            speciality = Speciality.objects.get(id=speciality_id)
+            return render(request, 'take-appointment.html', {'take': take, 'speciality': speciality})
+        return render(request, 'take-appointment.html', {'take': take})
 
 
 def logout_view(request):

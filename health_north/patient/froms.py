@@ -2,17 +2,170 @@ from django import forms
 from django.contrib.auth.forms import SetPasswordForm
 # from pkg_resources import _
 from django.utils.translation import gettext as _
-from .models import User, Appointment
+from .models import User, Appointment, SpecialityName, Speciality, Place, Review, Profile
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned, ValidationError
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms import Form, TextInput, DateInput, EmailInput, CharField, EmailField, PasswordInput, DateField
+# from .views import take_appointment
+
 
 class AppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointment
         fields = '__all__'
+
+
+class Appointment1Form(forms.ModelForm):
+    speciality_name = forms.ModelChoiceField(
+        queryset=SpecialityName.objects.all(),
+        label='Spécialité',
+        widget=forms.Select(
+            attrs={'id': 'id_speciality_name'}),
+    )
+    specialist_name = forms.ModelChoiceField(
+        queryset=Speciality.objects.none(),
+        label='Spécialiste',
+        widget=forms.Select(
+            attrs={'id': 'id_specialist_name'}),
+    )
+    review = forms.ModelChoiceField(
+        queryset=Review.objects.none(),
+        label='Type d\'examen',
+        widget=forms.Select(
+            attrs={'id': 'id_review'}),
+    )
+    date = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        label='Date'
+    )
+    time_slot = forms.TimeField(
+        widget=forms.TimeInput(attrs={'type': 'time'}),
+        label='Créneau horaire'
+    )
+    # profile = forms.IntegerField(widget=forms.HiddenInput(), initial=1)
+    profile = forms.ModelChoiceField(
+        #queryset=take_appointment.userProfile,
+        queryset=Profile.objects.all(),
+        label='Profile'
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['specialist_name'].queryset = Speciality.objects.none()
+
+        if 'speciality_name' in self.data:
+            try:
+                specialty_id = int(self.data.get('speciality_name'))
+                self.fields['specialist_name'].queryset = Speciality.objects.filter(speciality_name=specialty_id)
+                print(self.fields['specialist_name'].queryset)
+            except (ValueError, TypeError):
+                print('error')
+                pass
+
+        # if 'specialist_name' in self.data:
+        #    try:
+        #        specialist_id = int(self.data.get('specialist_name'))
+        #        self.fields['review'].queryset = Review.objects.filter(speciality__id=specialist_id)
+        #    except (ValueError, TypeError):
+        #        print('error')
+        #        pass
+
+    class Meta:
+        model = Appointment
+        fields = ('speciality_name', 'specialist_name', 'review', 'date', 'time_slot', 'profile',)
+
+
+class Appointment2Form(AppointmentForm):
+    specialist = SpecialityName.objects.all()
+    SPECIALITY_CHOICES = []
+    for i in specialist:
+        SPECIALITY_CHOICES.append((i, i))
+
+    speciality = forms.MultipleChoiceField(
+        required=True,
+        label='Spécialité',
+        widget=forms.Select(
+            attrs={'class': 'form-control'}
+        ),
+        choices=SPECIALITY_CHOICES,
+    )
+
+    hp = Place.objects.all()
+    CITY_CHOICES = []
+    for i in hp:
+        CITY_CHOICES.append((i, i))
+
+    city = forms.MultipleChoiceField(
+        required=True,
+        label='Ville',
+        widget=forms.Select(
+            attrs={'class': 'form-control'}
+        ),
+        choices=CITY_CHOICES,
+    )
+
+    typedr = SpecialityName.objects.all()
+    SPECIALITY_NAME_CHOICES = []
+    for i in typedr:
+        SPECIALITY_NAME_CHOICES.append((i, i))
+
+    speciality_name = forms.MultipleChoiceField(
+        required=True,
+        label='Spécialité',
+        widget=forms.Select(
+            attrs={'class': 'form-control'}
+        ),
+        choices=SPECIALITY_NAME_CHOICES,
+    )
+
+    dr = Speciality.objects.all()
+    SPECIALIST_CHOICES = []
+    for i in dr:
+        SPECIALIST_CHOICES.append((i, i))
+
+    specialist_name = forms.MultipleChoiceField(
+        required=True,
+        label='Spécialiste',
+        widget=forms.Select(
+            attrs={'class': 'form-control'}
+        ),
+        choices=SPECIALIST_CHOICES,
+    )
+    date = forms.SplitDateTimeField(
+        label='Date',
+        widget=forms.SplitDateTimeWidget(
+            date_format='%d/%m/%Y',
+            time_format='%H:%M',
+            # attrs={'class': 'form-control'}
+            date_attrs={'class': 'form-control', 'placeholder': 'JJ/MM/AAAA'},
+            time_attrs={'class': 'form-control', 'placeholder': 'HH:MM'},
+        )
+    )
+
+    TIME_CHOICES = [
+        ('10:00', '10:00'),
+        ('10:30', '10:30'),
+        ('11:00', '11:00'),
+        ('11:30', '11:30'),
+        ('16:00', '16:00'),
+        ('16:30', '16:30'),
+        ('17:00', '17:00'),
+        ('17:30', '17:30'),
+        ('18:00', '18:00'),
+        ('18:30', '18:30'),
+    ]
+
+    time = forms.MultipleChoiceField(
+        required=True,
+        label='Heure du rendez-vous',
+        widget=forms.Select(
+            attrs={'class': 'form-control'}
+        ),
+        choices=TIME_CHOICES,
+    )
+
 
 class CustomAuthForm(AuthenticationForm):
     username = CharField(label='Nom d\'utilisateur :',

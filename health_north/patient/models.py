@@ -127,7 +127,7 @@ class Review(models.Model):
     time = models.DurationField(verbose_name="Temps d\'examen", null=True)
 
     def __str__(self):
-        return f'{self.type_review}'
+        return f'{self.type_review} {self.speciality}'
 
     class Meta:
         verbose_name = "Examen"

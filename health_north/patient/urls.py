@@ -44,6 +44,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name="logout"),
     path('rendez-vous/', views.appointment, name="rendez-vous"),
     path('take-appointment/', views.take_appointment, name="take-appointment"),
+    path('take-appointment/<int:speciality_id>/', views.take_appointment, name='get-specialists'),
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
